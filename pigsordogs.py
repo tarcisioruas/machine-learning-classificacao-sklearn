@@ -25,7 +25,18 @@ model = LinearSVC()
 model.fit(treino_x, treino_y)
 
 # Testando modelo
-animal = [1, 1, 1]
-predict = model.predict([animal])
-print(predict) # cachorro (0)
+animal1 = [1, 1, 1] #cachorro
+animal2 = [1, 1, 0] #porco
+animal3 = [0, 1, 1] #cachorro
+
+teste_y = [animal1, animal2, animal3]
+teste_x = [0, 1, 1]
+
+previsoes = model.predict(teste_y)
+corretos = (previsoes == teste_x).sum()
+testes = len(teste_x)
+
+acuracia = corretos / testes * 100
+print("Taxa de acerto = {:.2f}%".format(acuracia)) 
+
 
