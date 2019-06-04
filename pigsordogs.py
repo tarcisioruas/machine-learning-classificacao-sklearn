@@ -1,4 +1,5 @@
 from sklearn.svm import LinearSVC
+from sklearn.metrics import accuracy_score
 
 # Features (1 - Sim, 2 - Não)
 # Tem pelo longo?
@@ -29,14 +30,11 @@ animal1 = [1, 1, 1] #cachorro
 animal2 = [1, 1, 0] #porco
 animal3 = [0, 1, 1] #cachorro
 
-teste_y = [animal1, animal2, animal3]
-teste_x = [0, 1, 1]
+teste_x = [animal1, animal2, animal3]
+teste_y = [0, 1, 1]
 
-previsoes = model.predict(teste_y)
-corretos = (previsoes == teste_x).sum()
-testes = len(teste_x)
+previsoes = model.predict(teste_x)
 
-acuracia = corretos / testes * 100
+acuracia = accuracy_score(teste_y, previsoes) * 100
+
 print("Taxa de acerto = {:.2f}%".format(acuracia)) 
-
-
