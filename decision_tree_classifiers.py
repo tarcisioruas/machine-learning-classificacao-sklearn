@@ -1,13 +1,9 @@
-
 import pandas as pd
 from datetime import datetime
 import numpy as np
-from sklearn.svm import LinearSVC
 from sklearn.model_selection import train_test_split
-from sklearn.dummy import DummyClassifier
 from sklearn.metrics import accuracy_score
-from sklearn.svm import SVC
-from sklearn.preprocessing import StandardScaler
+from sklearn.tree import DecisionTreeClassifier, export_graphviz
 
 uri = 'https://gist.githubusercontent.com/guilhermesilveira/4d1d4a16ccbf6ea4e0a64a38a24ec884/raw/afd05cb0c796d18f3f5a6537053ded308ba94bf7/car-prices.csv'
 dados = pd.read_csv(uri)
@@ -41,32 +37,11 @@ dados_y = dados["vendido"]
 SEED = 5
 np.random.seed(SEED)
 
-treino_x_original, teste_x_original, treino_y, teste_y = train_test_split(dados_x, dados_y, test_size = 0.25, stratify = dados_y)
+treino_x, teste_x, treino_y, teste_y = train_test_split(dados_x, dados_y, test_size = 0.25, stratify = dados_y)
 
-# Dummy 
-dummy_stratified = DummyClassifier()
-dummy_stratified.fit(treino_x_original, treino_y)
-previsoes = dummy_stratified.predict(teste_x_original)
-acuracia = dummy_stratified.score(teste_y, previsoes) * 100
-print("A acurácia do dummy_stratified é {:.2f}%".format(acuracia))
-
-# LinearSVC 
-model = LinearSVC()
-model.fit(treino_x_original, treino_y)
-previsoes = model.predict(teste_x_original)
-acuracia = accuracy_score(teste_y, previsoes) * 100
-print("A acurácia do dummy_stratified é {:.2f}%".format(acuracia))
-
-
-# SVC
-scaler = StandardScaler()
-scaler.fit(treino_x_original)
-treino_x = scaler.transform(treino_x_original)
-teste_x = scaler.transform(teste_x_original)
-
-modelo = SVC()
+modelo = DecisionTreeClassifier()
 modelo.fit(treino_x, treino_y)
 previsoes = modelo.predict(teste_x)
 
 acuracia = accuracy_score(teste_y, previsoes) * 100
-print("A acurácia do SVC foi {:.2f}%".format(acuracia))
+print("A acurácia do DecisionTreeClassifier foi {:.2f}%".format(acuracia))
